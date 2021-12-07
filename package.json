@@ -5,12 +5,15 @@
   "main": "index.js",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.11",
+    "@types/pg": "^8.6.1",
     "loader-utils": "^3.2.0",
     "ts-loader": "^8.2.0",
     "ts-node": "^10.4.0",
