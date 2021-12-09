@@ -1,5 +1,4 @@
 export interface BatYearResultDTO {
-  year: number,
   games: number,
   plate_appearances: number,
   at_bats: number,
@@ -26,7 +25,6 @@ export interface BatYearResultDTO {
 }
 
 export interface PitchYearResultDTO {
-  year: number,
   wins: number,
   losses: number,
   win_percentage: number,

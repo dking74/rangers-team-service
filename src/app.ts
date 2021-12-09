@@ -28,6 +28,8 @@ app.use((
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  console.error(`An error occurred in application: ${err.message}`, err?.stack);
+
   const status = (err instanceof HttpError) ? err.code : 500;
   const message = err?.message || 'An unexpected error occurred.';
   return res.status(status).json({

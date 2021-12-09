@@ -1,12 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 
 import asyncWrapper from "../utils/asyncWrapper";
-import { PlayerDTO } from "../types/players";
 import { NotFoundHttpError } from '../errors';
 import {
   getAllPlayers as getAllPlayersService,
-  getPlayerByPlayerId as getPlayerByPlayerIdService
+  getPlayerByPlayerId as getPlayerByPlayerIdService,
+  getAllYearPlayerResults as getAllYearPlayerResultsService,
+  getPlayerStatAverages as getPlayerStatAveragesService,
 } from "../services/players";
+import {
+  PlayerDTO,
+  PlayerYearResultDTO,
+  PlayerStatAveragesDTO,
+} from "../types/players";
 
 export const getAllPlayers = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   await getAllPlayersService()
@@ -14,13 +20,7 @@ export const getAllPlayers = asyncWrapper(async (req: Request, res: Response, ne
 });
 
 export const getPlayerByPlayerId = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const playerId: number = parseInt(req.params.playerId);
-  if (isNaN(playerId)) {
-    return res.status(400).json({
-      error: 'Player id value must be of type number and identify a player.'
-    })
-  }
-
+  const playerId = req.playerId;
   await getPlayerByPlayerIdService(playerId)
     .then((data: PlayerDTO) => {
       if (data === null) {
@@ -28,4 +28,16 @@ export const getPlayerByPlayerId = asyncWrapper(async (req: Request, res: Respon
       }
       res.status(200).json(data)
     })
+});
+
+export const getYearlyPlayerResults = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  const playerId = req.playerId;
+  await getAllYearPlayerResultsService(playerId)
+    .then((data: PlayerYearResultDTO) => res.status(200).json(data));
+});
+
+export const getPlayerTeamCareerAverages = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  const playerId = req.playerId;
+  await getPlayerStatAveragesService(playerId)
+    .then((data: PlayerStatAveragesDTO) => res.status(200).json(data));
 });
