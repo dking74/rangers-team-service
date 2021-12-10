@@ -1,20 +1,39 @@
 import { NextFunction, Request, Response } from "express";
 
 import asyncWrapper from "../utils/asyncWrapper";
-import { NotFoundHttpError } from '../errors';
+import { BadRequestHttpError, NotFoundHttpError } from '../errors';
 import {
   getAllPlayers as getAllPlayersService,
   getPlayerByPlayerId as getPlayerByPlayerIdService,
   getAllYearPlayerResults as getAllYearPlayerResultsService,
   getPlayerStatAverages as getPlayerStatAveragesService,
+  getPlayersByYear as getPlayersByYearService,
 } from "../services/players";
 import {
   PlayerDTO,
   PlayerYearResultDTO,
   PlayerStatAveragesDTO,
+  RosterByYearDTO,
 } from "../types/players";
 
 export const getAllPlayers = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  let year = req.query.year as string;
+  if (year) {
+    const parsedYear = parseInt(year);
+    if (isNaN(parsedYear)) {
+      throw new BadRequestHttpError(`Please enter a valid numeric year to search player for: ${parsedYear}.`);
+    }
+
+    return await getPlayersByYearService(parsedYear)
+      .then((data: RosterByYearDTO) => {
+        if (data === null) {
+          throw new NotFoundHttpError(`Unable to find roster for year: ${parsedYear}.`);
+        }
+
+        return res.status(200).json(data);
+      });
+  }
+
   await getAllPlayersService()
     .then((data: PlayerDTO[]) => res.status(200).json(data));
 });

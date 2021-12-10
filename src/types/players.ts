@@ -61,3 +61,9 @@ export interface PlayerStatAveragesDTO {
 export interface PlayerStatAveragesResponse {
   json_build_object: PlayerStatAveragesDTO;
 }
+
+/** Roster By Year Types */
+export type RosterByYearDTO = PlayerDTO[];
+export interface RosterByYearResponse {
+  json_agg: RosterByYearDTO;
+}

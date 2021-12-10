@@ -9,8 +9,6 @@ import {
 import PlayerIdMiddleware from '../middleware/players';
 
 const router = Router();
-router.get('/rosters/:year', /* getAllPlayersByYear */);
-// router.get('/rosters/:year/results', /* getAllPlayerResults */);
 router.get('/players', getAllPlayers);
 router.get('/players/:playerId', [PlayerIdMiddleware], getPlayerByPlayerId);
 router.get('/players/:playerId/results', [PlayerIdMiddleware], getYearlyPlayerResults);

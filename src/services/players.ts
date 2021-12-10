@@ -2,7 +2,8 @@ import {
   getAllPlayers as getAllPlayersRepo,
   getPlayerByPlayerId as getPlayerByPlayerIdRepo,
   getAllYearPlayerResults as getAllYearPlayerResultsRepo,
-  getPlayerStatAverages as getPlayerStatAveragesRepo, 
+  getPlayerStatAverages as getPlayerStatAveragesRepo,
+  getPlayersByYear as getPlayersByYearRepo,
 } from '../repositories/players';
 import {
   PlayerDTO,
@@ -11,17 +12,32 @@ import {
   PlayerYearResultResponse,
   PlayerStatAveragesDTO,
   PlayerStatAveragesResponse,
+  RosterByYearDTO,
+  RosterByYearResponse,
 } from "../types/players";
 
 export const getAllPlayers = async (): Promise<PlayerDTO[]> => {
   const playerResponse: PlayerResponse[] = await getAllPlayersRepo();
   const players = playerResponse.map((p: PlayerResponse) => {
     const { player } = p;
-    const { player_id, ...playerData } = player;
-    return playerData as PlayerDTO;
+    return player as PlayerDTO;
   }) as PlayerDTO[];
 
   return players;
+};
+
+export const getPlayersByYear = async (playerId: number): Promise<RosterByYearDTO> => {
+  const playerByYearResponse: RosterByYearResponse[] = await getPlayersByYearRepo(playerId);
+  if (playerByYearResponse.length === 0) {
+    return null;
+  }
+
+  const { json_agg: yearRoster } = playerByYearResponse[0];
+  if (yearRoster.length === 0) {
+    return null;
+  }
+
+  return yearRoster as RosterByYearDTO;
 };
 
 export const getPlayerByPlayerId = async (playerId: number): Promise<PlayerDTO> => {

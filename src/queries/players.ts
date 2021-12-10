@@ -2,6 +2,13 @@ export const getAllPlayersQuery = () => `
 SELECT row_to_json(p) as player
 FROM public."Player" p`;
 
+export const getPlayersByYearQuery = (year: number) => `
+SELECT json_agg(p.*)
+FROM public."Roster" r
+INNER JOIN public."Player" p ON r.player_id = p.player_id
+WHERE r.year = ${year}
+GROUP BY r.year`;
+
 export const getPlayerByPlayerIdQuery = (playerId: number) => `
 SELECT row_to_json(p) as player
 FROM public."Player" p
