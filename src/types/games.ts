@@ -14,3 +14,12 @@ export interface GameDTO {
   lossing_pitcher: string,
   saving_pitcher: string,
 }
+export interface GameYearDTO {
+  [year: number]: GameDTO[];
+}
+export interface GameResponse {
+  json_object_agg: GameYearDTO[];
+}
+export interface GameYearResponse {
+  json_agg: GameDTO;
+}
