@@ -17,9 +17,12 @@ export interface GameDTO {
 export interface GameYearDTO {
   [year: number]: GameDTO[];
 }
-export interface GameResponse {
+export interface AllGameResponse {
   json_object_agg: GameYearDTO[];
 }
 export interface GameYearResponse {
-  json_agg: GameDTO;
+  json_agg: GameDTO[];
+}
+export interface SingleGameResponse {
+  row_to_json: GameDTO;
 }

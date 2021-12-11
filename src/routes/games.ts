@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getAllGames } from '../controllers/games';
+import { getAllGames, getGameInfo } from '../controllers/games';
 
 const router = Router();
 router.get('/games', getAllGames);
-router.get('/games/:gameId', /* getGameInfo */);
+router.get('/games/:gameId', getGameInfo);
 
 /**
  * These are experimentation routes based on data available.
