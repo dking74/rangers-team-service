@@ -1,7 +1,10 @@
-import pg, { Pool, QueryResult } from 'pg';
+import { Pool, QueryResult } from 'pg';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, 
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 /** Register error event handler on the pool */
