@@ -2,13 +2,13 @@ import { Pool, QueryResult } from 'pg';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ...(process.env.NODE_ENV === 'development'
-    ? {}
-    : {
+  ...(process.env.ENV === 'production'
+    ? {
       ssl: {
         rejectUnauthorized: false,
       },
     }
+    : {}
   ),
 });
 
