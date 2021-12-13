@@ -151,7 +151,15 @@ FROM (
 ) data`;
 
 export const searchPlayerQuery = (searchString: string) => `
-SELECT p.player_id, CONCAT(p.first_name, ' ', p.last_name) as name
+SELECT
+  p.player_id,
+  CONCAT(p.first_name, ' ', p.last_name) as name,
+  p.age,
+  p.position,
+  p.height,
+  p.weight,
+  p.throws,
+  p.bats
 FROM public."Player" p
 WHERE position(LOWER('${searchString}') in LOWER(p.first_name)) > 0 OR 
 position(LOWER('${searchString}') in LOWER(p.last_name)) > 0 OR
