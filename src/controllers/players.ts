@@ -8,12 +8,14 @@ import {
   getAllYearPlayerResults as getAllYearPlayerResultsService,
   getPlayerStatAverages as getPlayerStatAveragesService,
   getPlayersByYear as getPlayersByYearService,
+  searchForPlayer as searchForPlayerService,
 } from "../services/players";
 import {
   PlayerDTO,
   PlayerYearResultDTO,
   PlayerStatAveragesDTO,
   RosterByYearDTO,
+  SearchPlayerResultsDTO,
 } from "../types/players";
 
 export const getAllPlayers = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
@@ -59,4 +61,14 @@ export const getPlayerTeamCareerAverages = asyncWrapper(async (req: Request, res
   const playerId = req.playerId;
   await getPlayerStatAveragesService(playerId)
     .then((data: PlayerStatAveragesDTO) => res.status(200).json(data));
+});
+
+export const searchForPlayer = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  const query = req.query.q as string;
+  if (!query) {
+    throw new BadRequestHttpError(`The request could not be completed because the query parameters 'q' was not submitted.`);
+  }
+
+  await searchForPlayerService(query)
+    .then((data: SearchPlayerResultsDTO) => res.status(200).json(data));
 });

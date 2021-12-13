@@ -1,10 +1,15 @@
 import { Pool, QueryResult } from 'pg';
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, 
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  connectionString: process.env.DATABASE_URL,
+  ...(process.env.NODE_ENV === 'development'
+    ? {}
+    : {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    }
+  ),
 });
 
 /** Register error event handler on the pool */

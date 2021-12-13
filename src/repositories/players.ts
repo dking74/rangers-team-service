@@ -5,12 +5,14 @@ import {
   getPlayerByPlayerIdQuery,
   getPlayerStatAveragesQuery,
   getPlayersByYearQuery,
+  searchPlayerQuery,
 } from '../queries/players';
 import {
   PlayerResponse,
   PlayerYearResultResponse,
   PlayerStatAveragesResponse,
   RosterByYearResponse,
+  SearchPlayerResponse,
 } from '../types/players';
 
 export const getAllPlayers = async (): Promise<PlayerResponse[]> => {
@@ -31,4 +33,8 @@ export const getAllYearPlayerResults = async (playerId: number): Promise<PlayerY
 
 export const getPlayerStatAverages = async (playerId: number): Promise<PlayerStatAveragesResponse[]> => {
   return await getQuery<PlayerStatAveragesResponse[]>(getPlayerStatAveragesQuery(playerId));
+};
+
+export const searchForPlayer = async (searchQuery: string): Promise<SearchPlayerResponse[]> => {
+  return await getQuery<SearchPlayerResponse[]>(searchPlayerQuery(searchQuery));
 };

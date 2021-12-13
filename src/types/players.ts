@@ -67,3 +67,9 @@ export type RosterByYearDTO = PlayerDTO[];
 export interface RosterByYearResponse {
   json_agg: RosterByYearDTO;
 }
+
+export interface SearchPlayerResponse {
+  player_id: number;
+  name: string;
+}
+export type SearchPlayerResultsDTO = SearchPlayerResponse[];

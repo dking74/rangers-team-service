@@ -4,6 +4,7 @@ import {
   getAllYearPlayerResults as getAllYearPlayerResultsRepo,
   getPlayerStatAverages as getPlayerStatAveragesRepo,
   getPlayersByYear as getPlayersByYearRepo,
+  searchForPlayer as searchForPlayerRepo,
 } from '../repositories/players';
 import {
   PlayerDTO,
@@ -14,6 +15,8 @@ import {
   PlayerStatAveragesResponse,
   RosterByYearDTO,
   RosterByYearResponse,
+  SearchPlayerResultsDTO,
+  SearchPlayerResponse,
 } from "../types/players";
 
 export const getAllPlayers = async (): Promise<PlayerDTO[]> => {
@@ -73,4 +76,9 @@ export const getPlayerStatAverages = async (playerId: number): Promise<PlayerSta
 
   const { json_build_object: playerAverageStats } = playerStats[0];
   return playerAverageStats as PlayerStatAveragesDTO;
+};
+
+export const searchForPlayer = async (searchQuery: string): Promise<SearchPlayerResultsDTO> => {
+  const searchResults: SearchPlayerResponse[] = await searchForPlayerRepo(searchQuery);
+  return searchResults as SearchPlayerResultsDTO;
 };
