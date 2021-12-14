@@ -39,14 +39,14 @@ export interface PlayerFieldYearResultDTO extends FieldYearResultDTO {}
 /** Player Year Result Types */
 export interface PlayerYearResultDTO {
   [year: number]: {
-    batting: PlayerBatYearResultDTO[];
-    pitching: PlayerPitchYearResultDTO[];
+    batting: PlayerBatYearResultDTO;
+    pitching: PlayerPitchYearResultDTO;
   }
 }
 export interface PlayerYearResultResponseByYear {
   [year: number]: {
-    batting: (PlayerBatYearResultDTO & { year: number })[];
-    pitching: (PlayerPitchYearResultDTO & { year: number })[];
+    batting: (PlayerBatYearResultDTO & { year: number });
+    pitching: (PlayerPitchYearResultDTO & { year: number });
   }
 }
 export interface PlayerYearResultResponse {

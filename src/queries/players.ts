@@ -49,23 +49,25 @@ export const getAllYearPlayerResultsQuery = (
 SELECT json_object_agg(
   r.year,
   json_build_object(
-    'batting', batting_result.result,
-    'pitching', pitching_result.result
+    'batting', batting_result.result->'b_result',
+    'pitching', pitching_result.result->'p_result'
   )
   ORDER BY r.year
 )
 FROM public."Player" p
 INNER JOIN public."Roster" r ON p.player_id = r.player_id
 LEFT JOIN (
-  SELECT player_id, json_agg(b_result) as result
+  SELECT year, player_id, json_object_agg('b_result', b_result) as result
   FROM public."PlayerBatYearResult" b_result
-  GROUP BY 1
-) batting_result ON r.player_id = batting_result.player_id
+  WHERE player_id = ${playerId}
+  GROUP BY player_id, year
+) batting_result ON r.player_id = batting_result.player_id AND r.year = batting_result.year
 LEFT JOIN (
-  SELECT player_id, json_agg(p_result) as result
+  SELECT year, player_id, json_object_agg('p_result', p_result) as result
   FROM public."PlayerPitchYearResult" p_result
-  GROUP BY 1
-) pitching_result ON p.player_id = pitching_result.player_id
+  WHERE player_id = ${playerId}
+  GROUP BY player_id, year
+) pitching_result ON p.player_id = pitching_result.player_id AND r.year = pitching_result.year
 WHERE p.player_id = ${playerId}`
 
 /**
