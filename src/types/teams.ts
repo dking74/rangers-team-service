@@ -14,7 +14,10 @@ export interface TeamStatsDTO {
   pitching: TeamPitchYearResultDTO;
 }
 export interface TeamStatsResponse {
-  json_build_object: TeamStatsDTO;
+  json_build_object: {
+    batting: TeamBatYearResultDTO[];
+    pitching: TeamPitchYearResultDTO[];
+  };
 }
 
 export interface AllTeamStatsDTO {

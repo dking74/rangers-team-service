@@ -38,7 +38,11 @@ export const getTeamStatsByYear = async (year: number): Promise<TeamStatsDTO> =>
   }
 
   const { json_build_object } = teamStatsResponse[0];
-  return json_build_object as TeamStatsDTO;
+  const stats = {
+    batting: json_build_object?.batting?.length > 0 ? json_build_object.batting[0] : {},
+    pitching: json_build_object?.pitching?.length > 0 ? json_build_object.pitching[0] : {},
+  };
+  return stats as TeamStatsDTO;
 };
 
 export const getAllTeamPersonnel = async (): Promise<AllTeamPersonnelDTO> => {
