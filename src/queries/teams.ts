@@ -91,7 +91,7 @@ SELECT json_build_object(
 	'ties', tr.ties,
 	'division_place', tr.division_place,
 	'attendance', tr.attendance,
-	'postseason', COALESCE(team_post_result.json_agg, to_json('[]'::text))
+	'postseason', COALESCE(team_post_result.json_agg, '[]'::json)
 )
 FROM public."TeamResult" tr
 LEFT JOIN (
