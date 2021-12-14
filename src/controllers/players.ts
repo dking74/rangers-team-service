@@ -54,13 +54,25 @@ export const getPlayerByPlayerId = asyncWrapper(async (req: Request, res: Respon
 export const getYearlyPlayerResults = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const playerId = req.playerId;
   await getAllYearPlayerResultsService(playerId)
-    .then((data: PlayerYearResultDTO) => res.status(200).json(data));
+    .then((data: PlayerYearResultDTO) => {
+      if (data === null) {
+        throw new NotFoundHttpError(`No player with player id ${playerId} found.`);
+      }
+
+      res.status(200).json(data);
+    });
 });
 
 export const getPlayerTeamCareerAverages = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const playerId = req.playerId;
   await getPlayerStatAveragesService(playerId)
-    .then((data: PlayerStatAveragesDTO) => res.status(200).json(data));
+    .then((data: PlayerStatAveragesDTO) => {
+      if (data === null) {
+        throw new NotFoundHttpError(`No player with player id ${playerId} found.`);
+      }
+      
+      return res.status(200).json(data);
+    });
 });
 
 export const searchForPlayer = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
@@ -70,5 +82,10 @@ export const searchForPlayer = asyncWrapper(async (req: Request, res: Response, 
   }
 
   await searchForPlayerService(query)
-    .then((data: SearchPlayerResultsDTO) => res.status(200).json(data));
+    .then((data: SearchPlayerResultsDTO) => {
+      if (data === null) {
+        throw new NotFoundHttpError(`No results found for query: ${query}.`);
+      }
+      return res.status(200).json(data)
+    });
 });

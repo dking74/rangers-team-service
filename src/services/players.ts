@@ -61,7 +61,7 @@ export const getAllYearPlayerResults = async (playerId: number): Promise<PlayerY
   }
 
   const { json_object_agg } = playerStats[0];
-  if (Object.keys(json_object_agg).length === 0) {
+  if (json_object_agg === null || Object.keys(json_object_agg).length === 0) {
     return null;
   } 
   const playerStatsData = json_object_agg;
